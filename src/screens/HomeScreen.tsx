@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SideComponent = () => {
+const HomeScreen = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const SideComponent = () => {
   )
 }
 
-export default SideComponent
+export default HomeScreen

@@ -16,11 +16,12 @@ const Login = () => {
   const [form] = useForm()
 
   const handleLogin = async (values: any) => {
+    console.log(values)
     const data: any = {}
     for(const i in values) {
       data[i] = values[i] ?? ''
     }try {
-      const api = '/auth/login'
+      const api = '/user/login'
       const res: any = await handleAPI(api, data, 'post')
       if(res.data) {
         message.success(res.message)
