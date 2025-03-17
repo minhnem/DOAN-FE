@@ -27,7 +27,7 @@ const ModalCategory = (props: Props) => {
             data[i] = values[i] ?? ''
         }
         data.slug = replaceName(values.title)
-        const api = '/product/add-new-category'
+        const api = '/dish/add-new-category'
         try {
             const res = await handleAPI(api, data, 'post')
             message.success('Thêm mới danh mục thành công.')

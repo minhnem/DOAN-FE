@@ -6,6 +6,9 @@ import HeaderComponent from '../components/HeaderComponent'
 import HomeScreen from '../screens/HomeScreen'
 import Dashboard from '../screens/Dashboard'
 import Category from '../screens/Category'
+import AddDish from '../screens/MenuManagement/AddDish'
+import MenuManagement from '../screens/MenuManagement/MenuManagement'
+import Suppliers from '../screens/Suppliers'
 
 const {Content, Footer} = Layout
 
@@ -25,6 +28,11 @@ const MainRouter = () => {
               <Route path='/' element={<HomeScreen />}/>
               <Route path='/dashboard' element={<Dashboard />}/>
               <Route path='/category' element={<Category />}/>
+              <Route>
+                <Route path='/menu' element={<MenuManagement />}/>
+                <Route path='/menu/add-new-dish' element={<AddDish />}/>
+              </Route>
+              <Route path='/supplier' element={<Suppliers/>}/>
             </Routes>
           </Content>
           <Footer />

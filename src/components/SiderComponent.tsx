@@ -25,19 +25,34 @@ const SiderComponent = () => {
             icon: <TiHomeOutline size={18} />
         },
         {
+            key: 'menu',
+            label: <Link to={'/menu'}>Quản lý Menu</Link>,
+            icon: <MdOutlineInventory2 size={18} />,
+            children: [
+                {
+                    key: 'addNew',
+                    label: <Link to={'/menu'}>Danh sách Menu</Link>
+                },
+                {
+                    key: 'inventory',
+                    label: <Link to={'/menu/add-new-dish'}>Thêm món ăn</Link>
+                }
+            ]
+        },
+        {
             key: 'category',
             label: <Link to={'/category'}>Danh mục</Link>,
             icon: <BsBarChartSteps size={18}/>
         },
         {
+            key: 'suppliers',
+            label: <Link to={'/supplier'}>Nhà cung cấp</Link>,
+            icon: <FaRegCircleUser size={18} />
+        },
+        {
             key: 'reports',
             label: <Link to={'/reports'}>Báo cáo</Link>,
             icon: <BsBarChart size={18} />
-        },
-        {
-            key: 'suppliers',
-            label: <Link to={'/suppliers'}>Nhà cung cấp</Link>,
-            icon: <FaRegCircleUser size={18} />
         },
         {
             key: 'oders',
