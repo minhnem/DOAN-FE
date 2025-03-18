@@ -9,6 +9,7 @@ import Category from '../screens/Category'
 import AddDish from '../screens/MenuManagement/AddDish'
 import MenuManagement from '../screens/MenuManagement/MenuManagement'
 import Suppliers from '../screens/Suppliers'
+import PromotionScreen from '../screens/PromotionScreen'
 
 const {Content, Footer} = Layout
 
@@ -33,6 +34,7 @@ const MainRouter = () => {
                 <Route path='/menu/add-new-dish' element={<AddDish />}/>
               </Route>
               <Route path='/supplier' element={<Suppliers/>}/>
+              <Route path='/promotion' element={<PromotionScreen/>}/>
             </Routes>
           </Content>
           <Footer />
