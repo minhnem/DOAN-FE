@@ -65,8 +65,7 @@ const FilterProduct = (props: Props) => {
   }
 
   const handleFilter = (values: any) => {
-    console.log(values)
-    //onFilter(values)
+    onFilter(values)
   }
 
   return (

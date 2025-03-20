@@ -2,21 +2,21 @@ import { Button, Card, Form, Input, message, Modal, Space, Table, TreeSelect, Ty
 import { useForm } from 'antd/es/form/Form'
 import FormItem from 'antd/es/form/FormItem'
 import React, { useEffect, useState } from 'react'
-import handleAPI from '../api/handleAPI'
-import { CategoryModel, TreeData } from '../models/CategoryModel'
 import { ColumnProps } from 'antd/es/table'
 import { MdEditSquare } from 'react-icons/md';
 import { MdDeleteForever } from 'react-icons/md';
-import { replaceName } from '../utils/repalceName'
-import { getTreevalues } from '../utils/getTreevalues'
+import { getTreevalues } from '../../utils/getTreevalues'
+import { replaceName } from '../../utils/repalceName'
+import { CategoryModel, TreeData } from '../../models/CategoryModel'
+import handleAPI from '../../api/handleAPI'
 
 const { Title } = Typography
 const { confirm } = Modal
 
 const Category = () => {
 
-    const [categories, setCategories] = useState<CategoryModel[]>([])
-    const [categorySelected, setCategorySelected] = useState<CategoryModel>()
+    const [categoriesMaterials, setCategoriesMaterials] = useState<CategoryModel[]>([])
+    const [categoryMaterialsSelected, setCategoryMaterialsSelected] = useState<CategoryModel>()
     const [treeValues, setTreeValues] = useState<TreeData[]>([])
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(10)
@@ -49,7 +49,7 @@ const Category = () => {
                     color='default'
                     icon={<MdEditSquare color='#3b82f6 ' size={20} />}
                     onClick={() =>
-                        setCategorySelected(category)
+                        setCategoryMaterialsSelected(category)
                     }
                 />
                 <Button
@@ -61,7 +61,7 @@ const Category = () => {
                             title: 'Xác nhận',
                             content: 'Bạn có chắc muốn xóa danh mục này ?',
                             onOk: () => {
-                                handleDeleteCategory(category._id)
+                                handleDeleteCategoryMaterials(category._id)
                             },
                         })
                     }
@@ -71,26 +71,26 @@ const Category = () => {
     ]
 
     useEffect(() => {
-        if (categorySelected) {
-            form.setFieldsValue(categorySelected)
+        if (categoryMaterialsSelected) {
+            form.setFieldsValue(categoryMaterialsSelected)
         }
-    }, [categorySelected])
+    }, [categoryMaterialsSelected])
 
     useEffect(() => {
-        getCategories()
+        getCategoriesMaterials()
     }, [page, pageSize])
 
     useEffect(() => {
-        getTreeValueCategory()
+        getTreeValueCategoryMaterials()
     }, [])
 
-    const getCategories = async () => {
+    const getCategoriesMaterials = async () => {
         setIsLoading(true)
-        const api = `/dish/get-categories`
+        const api = `/materials/get-categories`
         try {
             const res = await handleAPI(api)
             if (res.data) {
-                setCategories(getTreevalues(res.data.categories, true))
+                setCategoriesMaterials(getTreevalues(res.data.categories, true))
                 setTotal(res.data.total)
             }
         } catch (error: any) {
@@ -101,8 +101,8 @@ const Category = () => {
         }
     }
 
-    const getTreeValueCategory = async () => {
-        const api = '/dish/get-categories'
+    const getTreeValueCategoryMaterials = async () => {
+        const api = '/materials/get-categories'
         try {
             const res = await handleAPI(api)
             const datas = res.data.categories.length > 0 ? getTreevalues(res.data.categories) : []
@@ -113,20 +113,20 @@ const Category = () => {
         }
     }
 
-    const handleAddCategory = async (values: any) => {
+    const handleAddCategoryMaterials = async (values: any) => {
         setIsLoading(true)
         const datas: any = {}
         for (const i in values) {
             datas[i] = values[i] ?? ''
         }
         datas.slug = replaceName(values.title)
-        const api = '/dish/add-new-category'
+        const api = '/materials/add-new-category'
         try {
             const res: any = await handleAPI(api, datas, 'post')
             message.success(res.message)
             form.resetFields()
-            getCategories()
-            getTreeValueCategory()
+            getCategoriesMaterials()
+            getTreeValueCategoryMaterials()
         } catch (error: any) {
             message.error(error.message)
         } finally {
@@ -134,20 +134,20 @@ const Category = () => {
         }
     }
 
-    const handleUpdateCategory = async (values: any) => {
+    const handleUpdateCategoryMaterials = async (values: any) => {
         setIsLoading(true)
         const datas: any = {}
         for (const i in values) {
             datas[i] = values[i] ?? ''
         }
         datas.slug = replaceName(values.title)
-        const api = `/dish/update-category?id=${categorySelected?._id}`
+        const api = `/materials/update-category?id=${categoryMaterialsSelected?._id}`
         try {
             const res: any = await handleAPI(api, datas, 'put')
             message.success(res.message)
             form.resetFields()
-            setCategorySelected(undefined)
-            getCategories()
+            setCategoryMaterialsSelected(undefined)
+            getCategoriesMaterials()
         } catch (error: any) {
             message.error(error.message)
             console.log(error)
@@ -156,14 +156,14 @@ const Category = () => {
         }
     }
 
-    const handleDeleteCategory = async (id: string) => {
+    const handleDeleteCategoryMaterials = async (id: string) => {
         setIsLoading(true)
-        const api = `/dish/delete-category?id=${id}`
+        const api = `/materials/delete-category?id=${id}`
         try {
             await handleAPI(api, undefined, 'delete')
             message.success('Xóa danh mục thành công.')
-            setCategories(categories.filter((element) => element._id !== id))
-            getTreeValueCategory()
+            setCategoriesMaterials(categoriesMaterials.filter((element) => element._id !== id))
+            getTreeValueCategoryMaterials()
         } catch (error: any) {
             message.error(error.message)
             console.log(error)
@@ -176,9 +176,9 @@ const Category = () => {
         <div>
             <div className='grid grid-cols-12 gap-8'>
                 <div className='col-span-4'>
-                    <Card title={categorySelected ? 'Sửa danh mục' : 'Thêm mới danh mục'}>
+                    <Card title={categoryMaterialsSelected ? 'Sửa danh mục' : 'Thêm mới danh mục'}>
                         <Form
-                            onFinish={categorySelected ? handleUpdateCategory : handleAddCategory}
+                            onFinish={categoryMaterialsSelected ? handleUpdateCategoryMaterials : handleAddCategoryMaterials}
                             form={form}
                             layout='vertical'
                             size='large'>
@@ -194,7 +194,7 @@ const Category = () => {
                             <div className='flex justify-end'>
                                 <Space>
                                     <Button onClick={() => {
-                                        setCategorySelected(undefined)
+                                        setCategoryMaterialsSelected(undefined)
                                         form.resetFields()
                                     }}
                                     >
@@ -203,7 +203,7 @@ const Category = () => {
                                     <Button
                                         loading={isLoading}
                                         type='primary'
-                                        disabled={categorySelected ? false : true}
+                                        disabled={categoryMaterialsSelected ? false : true}
                                         onClick={() => form.submit()}
                                     >
                                         Sửa
@@ -211,7 +211,7 @@ const Category = () => {
                                     <Button
                                         loading={isLoading}
                                         type='primary'
-                                        disabled={categorySelected ? true : false}
+                                        disabled={categoryMaterialsSelected ? true : false}
                                         onClick={() => form.submit()}
                                     >
                                         Thêm mới
@@ -227,7 +227,7 @@ const Category = () => {
                         loading={isLoading}
                         bordered
                         columns={columns}
-                        dataSource={categories}
+                        dataSource={categoriesMaterials}
                         pagination={{
                             showSizeChanger: true,
                             onShowSizeChange(current, size) {

@@ -10,6 +10,9 @@ import AddDish from '../screens/MenuManagement/AddDish'
 import MenuManagement from '../screens/MenuManagement/MenuManagement'
 import Suppliers from '../screens/Suppliers'
 import PromotionScreen from '../screens/PromotionScreen'
+import InventoryManagement from '../screens/InventoryManagement/InventoryManagement'
+import AddMenterials from '../screens/InventoryManagement/AddMaterials'
+import CategoryMenterials from '../screens/InventoryManagement/CategoryMaterials'
 
 const {Content, Footer} = Layout
 
@@ -35,6 +38,11 @@ const MainRouter = () => {
               </Route>
               <Route path='/supplier' element={<Suppliers/>}/>
               <Route path='/promotion' element={<PromotionScreen/>}/>
+              <Route>
+                <Route path='/inventory' element={<InventoryManagement/>}/>
+                <Route path='/inventory/add-new-materials' element={<AddMenterials/>}/>
+                <Route path='/inventory/category-materials' element={<CategoryMenterials/>}/>
+              </Route>
             </Routes>
           </Content>
           <Footer />

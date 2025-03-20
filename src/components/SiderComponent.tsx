@@ -3,7 +3,7 @@ import React from 'react'
 import logo from '../assets/image/logo-doan.png'
 import { Link } from 'react-router-dom'
 import { TiHomeOutline } from "react-icons/ti";
-import { MdOutlineInventory2 } from "react-icons/md";
+import { MdOutlineInventory2, MdOutlineRestaurantMenu } from "react-icons/md";
 import { BsBarChart } from "react-icons/bs";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { MdOutlineEventNote } from "react-icons/md";
@@ -27,14 +27,14 @@ const SiderComponent = () => {
         {
             key: 'menu',
             label: <Link to={'/menu'}>Quản lý Menu</Link>,
-            icon: <MdOutlineInventory2 size={18} />,
+            icon: <MdOutlineRestaurantMenu size={18}/>,
             children: [
                 {
-                    key: 'addNew',
+                    key: 'management menu',
                     label: <Link to={'/menu'}>Danh sách Menu</Link>
                 },
                 {
-                    key: 'inventory',
+                    key: 'add new dish',
                     label: <Link to={'/menu/add-new-dish'}>Thêm món ăn</Link>
                 }
             ]
@@ -68,6 +68,25 @@ const SiderComponent = () => {
             key: 'promotion',
             label: <Link to={'/promotion'}>Quản lý giảm giá/khuyến mại</Link>,
             icon: <RiDiscountPercentLine size={18} />
+        },
+        {
+            key: 'inventory',
+            label: <Link to={'/inventory'}>Quản lý kho</Link>,
+            icon: <MdOutlineInventory2 size={18} />,
+            children: [
+                {
+                    key: 'inventory management',
+                    label: <Link to={'/inventory'}>Danh sách nguyên liệu</Link>
+                },
+                {
+                    key: 'add new menterials',
+                    label: <Link to={'/inventory/add-new-materials'}>Thêm mới nguyên liệu</Link>
+                },
+                {
+                    key: 'category menterials',
+                    label: <Link to={'/inventory/category-materials'}>Danh mục nguyên liệu</Link>
+                },
+            ]
         }
     ]
     return (

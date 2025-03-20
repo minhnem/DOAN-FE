@@ -31,7 +31,6 @@ const AddPromotion = (props: Props) => {
     }
 
     const handleAddPromotion = async (values: any) => {
-        console.log(values)
         const startAt = values.startAt
         const endAt  = values.endAt
         if (new Date(endAt).getTime() < new Date(startAt).getTime()) {

@@ -6,6 +6,7 @@ import handleAPI from '../api/handleAPI'
 
 interface Props {
     id: string,
+    options: 'menu' | 'materials'
 }
 
 const CategoryComponent = (props: Props) => {
@@ -16,9 +17,9 @@ const CategoryComponent = (props: Props) => {
     },[])
 
     const getCategory = async () => {
-        const {id} = props
+        const {id, options} = props
         try {
-            const api = `/dish/category/detail?id=${id}`
+            const api = options === 'menu' ? `/dish/category/detail?id=${id}` : `/materials/category/detail?id=${id}`
             const res = await handleAPI(api)
             res.data && setCategory(res.data)
         } catch (error: any) {

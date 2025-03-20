@@ -1,15 +1,17 @@
 import { Avatar, Button, Dropdown, Input, message, Modal, Space, TableProps, Tooltip, Typography } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { DishModel } from '../../models/DishModel';
 import Table, { ColumnProps } from 'antd/es/table';
-import CategoryComponent from '../../components/CategoryComponent';
 import { MdDeleteForever, MdEditSquare } from 'react-icons/md';
 import handleAPI from '../../api/handleAPI';
 import { replaceName } from '../../utils/repalceName';
 import FilterProduct from '../../components/FilterProduct';
 import { FiFilter } from 'react-icons/fi';
 import { VND } from '../../utils/handleCurrency';
+import { formatDate } from '../../utils/formatDate';
+import { MaterialsModel } from '../../models/Materials';
+import CategoryComponent from '../../components/CategoryComponent';
+import SupplierComponent from '../../components/SupplierComponent';
 
 const { Title } = Typography
 const { confirm } = Modal
@@ -19,12 +21,12 @@ type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'
 const MenuManagement = () => {
 
   const [isLoading, setIsLoading] = useState(false)
-  const [products, setProducts] = useState<DishModel[]>([])
-  const [productsFilter, setProductsFilter] = useState<DishModel[]>([])
+  const [materials, setMaterials] = useState<MaterialsModel[]>([])
+  const [materialsFilter, setMaterialsFilter] = useState<MaterialsModel[]>([])
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [total, setTotal] = useState(0)
-  const [productSelected, setProductSelected] = useState<DishModel>()
+  const [materialselected, setMaterialselected] = useState<MaterialsModel>()
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const [searchKey, setSearchKey] = useState<string>('')
 
@@ -34,12 +36,12 @@ const MenuManagement = () => {
     setSelectedRowKeys(newSelectedRowKeys)
   }
 
-  const rowSelection: TableRowSelection<DishModel> = {
+  const rowSelection: TableRowSelection<any> = {
     selectedRowKeys,
     onChange: onSelectChange,
   }
 
-  const columns: ColumnProps<DishModel>[] = [
+  const columns: ColumnProps<MaterialsModel>[] = [
     {
       key: 'title',
       dataIndex: 'title',
@@ -73,24 +75,37 @@ const MenuManagement = () => {
       dataIndex: 'categories',
       title: 'Danh mục',
       width: 300,
-      render: (ids: string[]) => ids.length > 0 && (
-        <Space>
-          {ids.map((id, index) => (<CategoryComponent id={id} key={index} options='menu'/>))}
-        </Space>
-      )
+      render: (ids: string[]) => <Space>{
+         ids.map((id, index) => <CategoryComponent id={id} options='materials' key={index}/>)
+      }</Space>
     },
     {
-      key: 'price',
-      dataIndex: 'price',
-      title: 'Giá bán',
+      key: 'supplier',
+      dataIndex: 'supplier',
+      title: 'Nhà cung cấp',
+      width: 250,
+      render: (id: string) => <SupplierComponent id={id}/>
+    },
+    {
+      key: 'cost',
+      dataIndex: 'cost',
+      title: 'Giá nhập vào',
       width: 150,
       render: (price: number) => VND.format(price)
     },
     {
-      key: 'status',
-      dataIndex: 'status',
-      title: 'Trạng thái',
+      key: 'importDate',
+      dataIndex: 'importDate',
+      title: 'Ngày nhập',
       width: 150,
+      render: (date: any) => formatDate(date).split(' ')[1]
+    },
+    {
+      key: 'expiryDate',
+      dataIndex: 'expiryDate',
+      title: 'Hạn sử dụng',
+      width: 150,
+      render: (date: any) => formatDate(date).split(' ')[1]
     },
     {
       key: 'action',
@@ -99,12 +114,12 @@ const MenuManagement = () => {
       fixed: 'right',
       dataIndex: '',
       width: 150,
-      render: (dish: DishModel) => <Space>
+      render: (materials: MaterialsModel) => <Space>
         <Button
           type='link'
           icon={<MdEditSquare size={20} color='#3b82f6' />}
           onClick={() => {
-            navigate(`/menu/add-new-dish?id=${dish._id}`)
+            navigate(`/inventory/add-new-materials?id=${materials._id}`)
           }}
         />
         <Button
@@ -115,7 +130,7 @@ const MenuManagement = () => {
               title: 'Xác nhận',
               content: 'Bạn có chắc muốn xóa sản phẩm này không ?',
               onOk: () => {
-                deleteProduct(dish._id)
+                deleteMaterials(materials._id)
               }
             })
           }}
@@ -126,21 +141,21 @@ const MenuManagement = () => {
 
   useEffect(() => {
     if (!searchKey) {
-      getProducts()
+      getMaterials()
     }
   }, [searchKey])
 
   useEffect(() => {
-    getProducts()
+    getMaterials()
   }, [])
 
-  const getProducts = async () => {
+  const getMaterials = async () => {
     setIsLoading(true)
     try {
-      const api = `/dish?page=${page}&pageSize=${pageSize}`
+      const api = `/materials?page=${page}&pageSize=${pageSize}`
       const res = await handleAPI(api)
       if (res.data) {
-        setProducts(res.data.products.map((item: DishModel) => ({ ...item, key: item._id })))
+        setMaterials(res.data.products.map((item: any) => ({ ...item, key: item._id })))
         setTotal(res.data.total)
       }
     } catch (error: any) {
@@ -151,13 +166,13 @@ const MenuManagement = () => {
     }
   }
 
-  const deleteProduct = async (id: string) => {
+  const deleteMaterials = async (id: string) => {
     try {
       setIsLoading(true)
-      const api = `/dish/delete-dish?id=${id}`
+      const api = `/materials/delete-materials?id=${id}`
       await handleAPI(api, undefined, 'delete')
       message.success('Xóa sản phẩm thành công')
-      setProducts(products.filter(item => item._id !== id))
+      setMaterials(materials.filter(item => item._id !== id))
     } catch (error: any) {
       message.error(error.message)
       console.log(error)
@@ -166,14 +181,14 @@ const MenuManagement = () => {
     }
   }
 
-  const hanleSearchProduct = async () => {
+  const hanleSearchMaterials = async () => {
     const title = replaceName(searchKey)
     try {
       setIsLoading(true)
-      const api = `/dish?title=${title}&page=${page}&pageSize=${pageSize}`
+      const api = `/materials?title=${title}&page=${page}&pageSize=${pageSize}`
       const res = await handleAPI(api)
       if (res.data) {
-        setProducts(res.data.products.map((item: DishModel) => ({ ...item, key: item._id })))
+        setMaterials(res.data.products.map((item: any) => ({ ...item, key: item._id })))
         setTotal(res.data.title)
       }
     } catch (error: any) {
@@ -184,27 +199,16 @@ const MenuManagement = () => {
     }
   }
 
-  const handleFilterProduct = async (values: any) => {
+  const handleFilterMaterials = async (values: any) => {
     console.log(values)
-    try {
-      setIsLoading(true)
-      const api = '/dish/filter-dish'
-      const res: any = await handleAPI(api, values, 'post')
-      message.success(res.message)
-      setProductsFilter(res.data)
-    } catch (error: any) {
-      console.log(error)
-      message.error(error.message)
-    } finally {
-      setIsLoading(false)
-    }
   }
 
   return (
     <Table
       rowSelection={rowSelection}
       loading={isLoading}
-      dataSource={productsFilter.length > 0 ? productsFilter : products}
+      dataSource={materialsFilter.length > 0 ? materialsFilter : materials}
+      rowKey={'_id'}
       bordered
       columns={columns}
       pagination={{
@@ -239,7 +243,7 @@ const MenuManagement = () => {
                           title: 'Xác nhận',
                           content: 'Bạn có chắc muốn xóa những món ăn được chọn không ?',
                           onOk: () => {
-                            selectedRowKeys.forEach((id: string) => deleteProduct(id))
+                            selectedRowKeys.forEach((id: string) => deleteMaterials(id))
                           }
                         })
                       }}
@@ -252,18 +256,18 @@ const MenuManagement = () => {
               <Input.Search
                 value={searchKey}
                 onChange={(val) => setSearchKey(val.target.value)}
-                onSearch={hanleSearchProduct}
+                onSearch={hanleSearchMaterials}
                 placeholder='Nhập tên sản phẩm'
                 allowClear
               />
-              <Dropdown dropdownRender={(menu) => <FilterProduct value={{}} onFilter={(val) => handleFilterProduct(val)} />}>
+              <Dropdown dropdownRender={(menu) => <FilterProduct value={{}} onFilter={(val) => handleFilterMaterials(val)} />}>
                 <Button icon={<FiFilter />}>Lọc</Button>
               </Dropdown>
-              {productsFilter.length > 0 ? <Button danger onClick={() => setProductsFilter([])}>
+              {materialsFilter.length > 0 ? <Button danger onClick={() => setMaterialsFilter([])}>
                 Hủy lọc
               </Button> : ''}
               <Button type='primary'>
-                <Link to='/menu/add-new-dish'>Thêm mới</Link>
+                <Link to='/inventory/add-new-materials'>Thêm mới</Link>
               </Button>
             </Space>
           </div>
