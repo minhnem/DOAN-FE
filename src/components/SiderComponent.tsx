@@ -12,6 +12,7 @@ import { BsBoxSeam } from "react-icons/bs";
 import { appInfo } from '../constants/appInfos';
 import { colors } from '../constants/colors';
 import { RiDiscountPercentLine } from "react-icons/ri";
+import { MdOutlineTableBar } from "react-icons/md";
 
 type MenuItem = Required<MenuProps>['items'][number]
 const { Sider } = Layout
@@ -87,6 +88,11 @@ const SiderComponent = () => {
                     label: <Link to={'/inventory/category-materials'}>Danh mục nguyên liệu</Link>
                 },
             ]
+        },
+        {
+            key: 'table',
+            label: <Link to={'/table-management'}>Quản lý bàn ăn</Link>,
+            icon: <MdOutlineTableBar size={18}/>
         }
     ]
     return (
