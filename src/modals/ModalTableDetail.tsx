@@ -1,4 +1,4 @@
-import { Form, Input, message, Modal, Select, Typography } from 'antd'
+import { Button, Form, Input, message, Modal, Typography } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import React, { useEffect, useState } from 'react'
 import { TableModel } from '../models/TableModel'
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ModalTableDetail = (props: Props) => {
-    const { visible, onAddNew, onClose, table } = props
+    const { visible, onClose, table } = props
 
     const [isLoading, setIsLoading] = useState(false);
     const [tableDetail, setTableDetail] = useState<TableModel>();
@@ -21,22 +21,25 @@ const ModalTableDetail = (props: Props) => {
 
     const handleClose = () => {
         form.resetFields()
+        setTableDetail(undefined)
         onClose()
     }
 
     useEffect(() => {
         if (table) {
-            getTableDetail(table._id)
+            getTableReservations(table._id)
         }
-    }, [table, tableDetail]);
+    }, [table]);
 
-    const getTableDetail = async (id: string) => {
+    const getTableReservations = async (id: string) => {
         try {
             setIsLoading(true)
-            console.log(id)
-            // const api = `/table/get-table-detail?id=${id}`
-            // const res = await handleAPI(api)
-            // res.data && setTableDetail(res.data)
+            const api = `/table/get-table-reservations?id=${id}`
+            const res = await handleAPI(api)
+            if (res.data.reservations && Object.keys(res.data.reservations).length > 0) {
+                form.setFieldsValue(res.data.reservations)
+                setTableDetail(res.data)
+            }
         } catch (error: any) {
             message.error(error.message)
             console.log(error)
@@ -46,10 +49,32 @@ const ModalTableDetail = (props: Props) => {
     }
 
     const handleAddTableDetail = async (values: any) => {
+        const data: any = {}
+        for (const i in values) {
+            data[i] = values[i] ?? ''
+        }
+        data.table_id = table?._id
         try {
             setIsLoading(true)
-            console.log(values)
+            const api = tableDetail && Object.keys(tableDetail).length > 0 ? `/reservations/update-reservations?id=${tableDetail.reservations._id}` : '/reservations/add-new-reservations'
+            const res: any = await handleAPI(api, data, tableDetail && Object.keys(tableDetail).length > 0 ? 'put' : 'post')
+            res.data && console.log(res)
+            message.success(res.message)
+            handleClose()
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
+    const handleRemoveTableReservations = async (id: string) => {
+        setIsLoading(true)
+        try {
+            const api = `/reservations/delete-reservations?id=${id}`
+            const res: any = await handleAPI(api, undefined, 'delete')
+            message.success(res.message)
+            handleClose()
         } catch (error) {
             console.log(error)
         } finally {
@@ -60,18 +85,26 @@ const ModalTableDetail = (props: Props) => {
         <Modal
             title='Chi tiết bàn ăn'
             open={visible}
-            onClose={handleClose}
             onCancel={handleClose}
-            onOk={form.submit}
-            okButtonProps={{
-                loading: isLoading
-            }}
+            footer={[
+                <div key='footer-buttons' className='flex justify-end gap-3'>
+                    <Button
+                        key='delete'
+                        disabled={tableDetail && Object.keys(tableDetail.reservations).length > 0 ? false : true}
+                        onClick={() => tableDetail && handleRemoveTableReservations(tableDetail.reservations._id)}
+                    >
+                        Xóa thông tin
+                    </Button>
+                    <Button key='canCel' onClick={handleClose}>Hủy</Button>
+                    <Button key='add' type='primary' loading={isLoading} onClick={() => form.submit()}>{tableDetail && Object.keys(tableDetail.reservations).length > 0 ? 'Sửa' : 'Thêm'}</Button>
+                </div>
+            ]}
         >
             <div className='flex justify-between my-5'>
                 <Typography.Text>Tên bàn: {table?.name}</Typography.Text>
                 <Typography.Text>Mã bàn: {table?._id}</Typography.Text>
             </div>
-            <div  className='mb-5'>
+            <div className='mb-5'>
                 <Typography.Text>Trạng thái: {table?.status}</Typography.Text>
             </div>
             <Form

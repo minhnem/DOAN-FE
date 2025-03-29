@@ -1,3 +1,5 @@
+import { ReservationsModel } from "./ReservationsModel"
+
 export interface TableModel {
     _id: string
     name: string
@@ -8,4 +10,5 @@ export interface TableModel {
     createdAt: string
     updatedAt: string
     __v: number
+    reservations: ReservationsModel
 }

@@ -141,6 +141,7 @@ const TableManagement = () => {
                 onClose={() => {
                     setIsVisibleModelTableDetail(false)
                     setTableSelected(undefined)
+                    getAllTable()
                 }}
                 onAddNew={(val) => console.log(val)}
             />
