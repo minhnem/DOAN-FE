@@ -113,6 +113,8 @@ const AddDish = () => {
                 }
             }
             data.images = urls
+        } else {
+            data.images = []
         }
         try {
             console.log(data)
