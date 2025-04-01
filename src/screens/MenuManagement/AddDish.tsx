@@ -35,6 +35,9 @@ const AddDish = () => {
     useEffect(() => {
         if (id) {
             getDishDetail(id)
+        } else {
+            form.resetFields()
+            getData()
         }
     }, [id])
 
@@ -187,7 +190,7 @@ const AddDish = () => {
                                     />
                                 </FormItem>
                                 <FormItem name='price' label='Nhập giá bán:' rules={[{ required: true, message: 'Vui lòng nhập giá.' }]}>
-                                    <InputNumber placeholder='Nhập giá' min={0} className='w-full'/>
+                                    <Input type='number' placeholder='Nhập giá' min={0} className='w-full'/>
                                 </FormItem>
                                 <FormItem name='status' label='Chọn trạng thái:' initialValue={'Phục vụ'}>
                                     <Select options={[{value: 'Phục vụ', label: 'Phục vụ'}, {value: 'Không phục vụ', label: 'Không phục vụ'}]}/>

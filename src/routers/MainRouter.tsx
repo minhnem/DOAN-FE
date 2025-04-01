@@ -14,6 +14,8 @@ import InventoryManagement from '../screens/InventoryManagement/InventoryManagem
 import AddMenterials from '../screens/InventoryManagement/AddMaterials'
 import CategoryMenterials from '../screens/InventoryManagement/CategoryMaterials'
 import TableManagement from '../screens/TableManagement'
+import OrderManagement from '../screens/OrderManagement/OrderManagement'
+import Order from '../screens/OrderManagement/Order'
 
 const {Content, Footer} = Layout
 
@@ -43,6 +45,10 @@ const MainRouter = () => {
                 <Route path='/inventory' element={<InventoryManagement/>}/>
                 <Route path='/inventory/add-new-materials' element={<AddMenterials/>}/>
                 <Route path='/inventory/category-materials' element={<CategoryMenterials/>}/>
+              </Route>
+              <Route>
+                <Route path='/order-management' element={<OrderManagement/>}/>
+                <Route path='/order' element={<Order/>}/>
               </Route>
               <Route path='/table-management' element={<TableManagement/>}/>
             </Routes>

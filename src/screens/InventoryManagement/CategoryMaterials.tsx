@@ -164,6 +164,7 @@ const Category = () => {
             message.success('Xóa danh mục thành công.')
             setCategoriesMaterials(categoriesMaterials.filter((element) => element._id !== id))
             getTreeValueCategoryMaterials()
+            getCategoriesMaterials()
         } catch (error: any) {
             message.error(error.message)
             console.log(error)

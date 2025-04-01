@@ -13,6 +13,7 @@ import { appInfo } from '../constants/appInfos';
 import { colors } from '../constants/colors';
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { MdOutlineTableBar } from "react-icons/md";
+import { IoFastFoodOutline } from "react-icons/io5";
 
 type MenuItem = Required<MenuProps>['items'][number]
 const { Sider } = Layout
@@ -86,6 +87,21 @@ const SiderComponent = () => {
                 {
                     key: 'category menterials',
                     label: <Link to={'/inventory/category-materials'}>Danh mục nguyên liệu</Link>
+                },
+            ]
+        },
+        {
+            key: 'oder', 
+            label: <Link to={'/order-management'}>Quản lý Order</Link>,
+            icon: <IoFastFoodOutline size={18}/>,
+            children: [
+                {
+                    key: 'order management',
+                    label: <Link to={'/order-management'}>Danh sách order</Link>
+                },
+                {
+                    key: 'table order',
+                    label: <Link to={'/order'}>Order</Link>
                 },
             ]
         },
