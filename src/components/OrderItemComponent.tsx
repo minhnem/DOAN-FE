@@ -1,21 +1,28 @@
-import React from 'react'
-import image from '../assets/image/image1.jpg'
+import React, { useState } from 'react'
 import { Button, Space, Typography } from 'antd'
 import { HiMinusSm } from 'react-icons/hi'
 import { colors } from '../constants/colors'
 import { FiPlus } from 'react-icons/fi'
 import { DishModel } from '../models/DishModel'
+import { VND } from '../utils/handleCurrency'
+import { MdDeleteForever } from 'react-icons/md'
+import { useDispatch } from 'react-redux'
+import { addDish, minusCount } from '../redux/reducers/orderReducer'
 
 interface Props {
-    orderItem?: DishModel
+    orderItem: DishModel,
+    onRemove: (val: any) => void
+    [key: string]: any
 }
 
 const OrderItemComponent = (props: Props) => {
+    const { orderItem, onRemove, ...rest } = props
+    const dispatch = useDispatch()
     return (
-        <div className='grid grid-cols-12 gap-2'>
+        <div {...rest} className='grid grid-cols-12 gap-2 mb-4 p-1 border-[1px] border-solid border-[#ccc] rounded-xl'>
             <div className='col-span-3'>
                 <img
-                    src={image}
+                    src={orderItem.images[0]}
                     alt='iimage'
                     style={{
                         width: '100%',
@@ -35,17 +42,39 @@ const OrderItemComponent = (props: Props) => {
                             fontWeight: '600'
                         }}
                     >
-                        Món ăn này được làm từ rất nhiều nguyên liệu
+                        {orderItem.title}
                     </Typography.Paragraph>
-                    <Typography.Title level={5} style={{ margin: '0', color: colors.primary }}>50.000đ</Typography.Title>
+                    <Typography.Title level={5} style={{ margin: '0', color: colors.primary }}>{VND.format(orderItem.price)}</Typography.Title>
                 </div>
             </div>
             <div className='col-span-3'>
-                <div className='flex items-center h-full'>
+                <div className='flex items-center justify-around h-full flex-col'>
+                    <div className='text-end w-full'>
+                        <Button
+                            type='text'
+                            className='flex items-center text-[#ef4444]'
+                            onClick={() => {
+                                onRemove(orderItem)
+                            }}>
+                            <MdDeleteForever size={20} color='#ef4444 ' />
+                            xóa
+                        </Button>
+                    </div>
                     <Space>
-                        <Button icon={<HiMinusSm />} />
-                        <span style={{ fontWeight: '400' }}>1</span>
-                        <Button type='primary' icon={<FiPlus />} />
+                        <Button 
+                            icon={<HiMinusSm />}
+                            onClick={() => {
+                                dispatch(minusCount(orderItem))
+                            }}
+                        />
+                        <span style={{ fontWeight: '400' }}>{orderItem.count}</span>
+                        <Button
+                            type='primary'
+                            icon={<FiPlus />}
+                            onClick={() => {
+                                dispatch(addDish({...orderItem, count: 1}))
+                            }}
+                        />
                     </Space>
                 </div>
             </div>

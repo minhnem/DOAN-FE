@@ -12,3 +12,8 @@ export interface TableModel {
     __v: number
     reservations: ReservationsModel
 }
+
+export interface TableOptions {
+    value: string
+    label: string
+}

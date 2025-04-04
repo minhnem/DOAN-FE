@@ -12,6 +12,9 @@ export interface DishModel {
     isDeleted: boolean
     _id: string
     __v: number
+    count: number
+    tableId: string
+    dishId: string
 }
 
 export interface SelectModel {

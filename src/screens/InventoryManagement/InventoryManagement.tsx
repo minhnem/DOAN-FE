@@ -26,7 +26,6 @@ const MenuManagement = () => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [total, setTotal] = useState(0)
-  const [materialselected, setMaterialselected] = useState<MaterialsModel>()
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const [searchKey, setSearchKey] = useState<string>('')
 
