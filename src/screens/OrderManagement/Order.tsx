@@ -8,18 +8,28 @@ import { TableModel, TableOptions } from '../../models/TableModel';
 import { useDispatch, useSelector } from 'react-redux';
 import { addDish, orderSelector, removeDish, syncOrder } from '../../redux/reducers/orderReducer';
 import { VND } from '../../utils/handleCurrency';
+import { useSearchParams } from 'react-router-dom';
 
 const Order = () => {
   const [menuItems, setMenuItems] = useState<DishModel[]>([]);
   const [tableOptions, setTableOptions] = useState<TableOptions[]>([]);
-  const [tableId, setTableId] = useState();
+  const [tableId, setTableId] = useState('');
 
   const order: DishModel[] = useSelector(orderSelector)
   const dispatch = useDispatch()
 
+  const [searchParams] = useSearchParams()
+  const id = searchParams.get('id')
+
   useEffect(() => {
     getMenuItem()
     getAllTable()
+  }, []);
+
+  useEffect(() => {
+    if(id) {
+      setTableId(id)
+    }
   }, []);
 
   useEffect(() => {
@@ -118,6 +128,7 @@ const Order = () => {
               options={tableOptions}
               placeholder='Chọn bàn ăn'
               size='large'
+              value={tableId}
               onChange={val => setTableId(val)}
             />
           </div>

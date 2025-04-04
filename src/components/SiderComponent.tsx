@@ -1,7 +1,7 @@
 import { Layout, Menu, MenuProps, Typography } from 'antd'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../assets/image/logo-doan.png'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { TiHomeOutline } from "react-icons/ti";
 import { MdOutlineInventory2, MdOutlineRestaurantMenu } from "react-icons/md";
 import { BsBarChart } from "react-icons/bs";
@@ -20,6 +20,63 @@ const { Sider } = Layout
 const { Text } = Typography
 
 const SiderComponent = () => {
+    const location = useLocation();
+    const [selectedKeys, setSelectedKeys] = useState(['']);
+    const [openKeys, setOpenKeys] = useState(['']);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        const pathname = location.pathname;
+    
+        if (pathname === '/' || pathname === '/dashboard') {
+            setSelectedKeys(['dashboard']);
+            setOpenKeys([]);
+        } else if (pathname === '/menu') {
+            setSelectedKeys(['management menu']);
+            setOpenKeys(['menu']);
+        } else if (pathname === '/menu/add-new-dish') {
+            setSelectedKeys(['add new dish']);
+            setOpenKeys(['menu']);
+        } else if (pathname === '/category') {
+            setSelectedKeys(['category']);
+            setOpenKeys([]);
+        } else if (pathname === '/supplier') {
+            setSelectedKeys(['suppliers']);
+            setOpenKeys([]);
+        } else if (pathname === '/reports') {
+            setSelectedKeys(['reports']);
+            setOpenKeys([]);
+        } else if (pathname === '/oders') {
+            setSelectedKeys(['oders']);
+            setOpenKeys([]);
+        } else if (pathname === '/manage-store') {
+            setSelectedKeys(['manage Store']);
+            setOpenKeys([]);
+        } else if (pathname === '/promotion') {
+            setSelectedKeys(['promotion']);
+            setOpenKeys([]);
+        } else if (pathname === '/inventory') {
+            setSelectedKeys(['inventory management']);
+            setOpenKeys(['inventory']);
+        } else if (pathname === '/inventory/add-new-materials') {
+            setSelectedKeys(['add new menterials']);
+            setOpenKeys(['inventory']);
+        } else if (pathname === '/inventory/category-materials') {
+            setSelectedKeys(['category menterials']);
+            setOpenKeys(['inventory']);
+        } else if (pathname === '/order-management') {
+            setSelectedKeys(['order management']);
+            setOpenKeys(['oder']);
+        } else if (pathname === '/order') {
+            setSelectedKeys(['table order']);
+            setOpenKeys(['oder']);
+        } else if (pathname === '/table-management') {
+            setSelectedKeys(['table']);
+            setOpenKeys([]);
+        }
+    }, [location]);
+    
+
     const items: MenuItem[] = [
         {
             key: 'dashboard',
@@ -111,13 +168,25 @@ const SiderComponent = () => {
             icon: <MdOutlineTableBar size={18}/>
         }
     ]
+
+    const onOpenChange = (keys: string[]) => {
+        setOpenKeys(keys);
+    }
+
     return (
         <Sider theme='light' width={300} className='h-[100vh] p-2'>
             <div className='flex items-center pl-5'>
                 <img src={logo} alt="Logo" width={28} />
                 <Text style={{ marginLeft: '5px', fontWeight: 'bold', fontSize: '1.5rem', color: colors.primary }}>{appInfo.title}</Text>
             </div>
-            <Menu mode='inline' items={items} theme='light' />
+            <Menu 
+                mode='inline' 
+                items={items} 
+                theme='light' 
+                selectedKeys={selectedKeys}
+                openKeys={openKeys}
+                onOpenChange={onOpenChange}
+            />
         </Sider>
     )
 }

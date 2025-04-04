@@ -9,6 +9,7 @@ import ModalTable from '../modals/ModalTable';
 import handleAPI from '../api/handleAPI';
 import { TableModel } from '../models/TableModel';
 import ModalTableDetail from '../modals/ModalTableDetail';
+import { useNavigate } from 'react-router-dom';
 
 const {confirm} = Modal
 
@@ -20,6 +21,8 @@ const TableManagement = () => {
     const [tables, setTables] = useState<TableModel[]>([]);
     const [isVisibleModelTable, setIsVisibleModelTable] = useState(false);
     const [isVisibleModelTableDetail, setIsVisibleModelTableDetail] = useState(false);
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         getAllTable()
@@ -87,7 +90,10 @@ const TableManagement = () => {
                             {
                                 key: 'oder',
                                 label: 'Gọi món',
-                                icon: <AiFillNotification color='green' size={20} />
+                                icon: <AiFillNotification color='green' size={20} />,
+                                onClick: () => {
+                                    navigate(`/order?id=${table._id}`)
+                                }
                             },
                             {
                                 key: 'remove',
