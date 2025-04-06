@@ -9,11 +9,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addDish, orderSelector, removeDish, syncOrder } from '../../redux/reducers/orderReducer';
 import { VND } from '../../utils/handleCurrency';
 import { useSearchParams } from 'react-router-dom';
+import BillModal from '../../modals/BillKetchenModal';
+import { BillKetchen } from '../../models/BillsModel';
 
 const Order = () => {
   const [menuItems, setMenuItems] = useState<DishModel[]>([]);
   const [tableOptions, setTableOptions] = useState<TableOptions[]>([]);
   const [tableId, setTableId] = useState('');
+  const [visibleBillModal, setVisibleBillModal] = useState(false);
+  const [ketchenBill, setKetchenBill] = useState<BillKetchen>();
 
   const order: DishModel[] = useSelector(orderSelector)
   const dispatch = useDispatch()
@@ -35,6 +39,8 @@ const Order = () => {
   useEffect(() => {
     if(tableId){
       getOrder(tableId)
+    } else {
+      dispatch(syncOrder([]))
     }
   }, [tableId]);
 
@@ -59,6 +65,11 @@ const Order = () => {
   }
 
   const handleUpdateOrder = async (data: DishModel[]) => {
+    const bill: any = {
+      tableId: tableId,
+      reservationId: '',
+    }
+    const dishItems: any[] = []
     for(const element of data) {
       const api = `/order/add-new-order${element.dishId && element.tableId ? `?dishId=${element.dishId}&tableId=${element.tableId}` : ''}`
       const value = {
@@ -69,6 +80,7 @@ const Order = () => {
         price: element.price,
         images: Array.isArray(element.images) ? [...element.images] : [],
       }
+      dishItems.push({ title: element.title, count: element.count, price: element.price })
       try {
         const res = await handleAPI(api, value, 'post')
         console.log(res)
@@ -76,6 +88,9 @@ const Order = () => {
         console.log(error)
       }
     }
+    bill.dishItem = dishItems
+    bill.tableName = tableOptions && tableOptions.find((element) => element.value === tableId)?.label
+    setKetchenBill(bill)
     tableId && getOrder(tableId)
   }
 
@@ -158,19 +173,27 @@ const Order = () => {
             </Typography.Title>
           </div>
           <Button
-            className='w-full'
-            type='primary'
+            className='w-full mb-5'
             size='large'
             onClick={() => {
               if (order && order.length > 0) {
                 handleUpdateOrder(order)
+                setVisibleBillModal(true)
               }
             }}
           >
             Đặt món
           </Button>
+          <Button
+            className='w-full'
+            type='primary'
+            size='large'
+          >
+            Thanh toán
+          </Button>
         </div>
       </Card>
+      <BillModal visible={visibleBillModal} onClose={() => setVisibleBillModal(false)} bill={ketchenBill}/>
     </div>
   )
 }

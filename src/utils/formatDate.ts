@@ -1,4 +1,4 @@
-export const formatDate = (date: string) => {
+export const formatDate = (date: string | Date) => {
     const item = new Date(date)
     const vietnamTime = new Intl.DateTimeFormat('vi-VN', {
         day: '2-digit', 
