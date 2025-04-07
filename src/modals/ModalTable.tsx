@@ -70,7 +70,7 @@ const ModalTable = (props: Props) => {
                     <Input placeholder='Nhập tên' allowClear/>
                 </Form.Item>
                 <Form.Item name='status' label='Trạng thái:' initialValue={'Trống'}>
-                    <Select options={[{value: 'Trống', label: 'Trống'}, {value: 'Đang phục vụ', label: 'Đang phục vụ'}, {value:'Chờ phục vụ', label: 'Chờ phục vụ'}]}/>
+                    <Select options={[{value: 'Trống', label: 'Trống'}, {value: 'Đang phục vụ', label: 'Đang phục vụ'}, {value:'Được đặt trước', label: 'Được đặt trước'}]}/>
                 </Form.Item>
             </Form>
         </Modal>

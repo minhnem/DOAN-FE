@@ -74,7 +74,6 @@ const Order = () => {
           count: element.count,
           price: element.price,
         }))
-        console.log(promotion)
         setBill({
           tableId: tableId,
           tableName: tableOptions ? tableOptions.find((element) => element.value === tableId)?.label ?? ' ' : '',
@@ -141,6 +140,16 @@ const Order = () => {
     bill.tableName = tableOptions && tableOptions.find((element) => element.value === tableId)?.label
     setBill(bill)
     tableId && getOrder(tableId)
+    updateStatusTable()
+  }
+
+  const updateStatusTable = async () => {
+    try {
+      const api = `/table/update-status-table?id=${tableId}`
+      await handleAPI(api, undefined, 'put')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleRemoveMenuItem = async (val: any) => {
@@ -184,7 +193,7 @@ const Order = () => {
           </div>
           <div></div>
         </div>
-        <div className='grid grid-cols-3 gap-3'>
+        <div className='grid grid-cols-3 gap-3' style={{maxHeight: '100vh', overflowY: 'auto',paddingRight: '8px',}}>
           {menuItems.length > 0 && menuItems.map((item, index) => (
             <MenuItemComponent key={index} menuItem={item} onClick={(val) => handleOrder(val)} />
           ))}
@@ -194,11 +203,13 @@ const Order = () => {
         <Typography.Title level={3}>Đơn đặt</Typography.Title>
         <p className='mb-5'>Mã bàn: {tableId}</p>
         <p className='mb-5'>Tên bàn: {tableOptions && tableOptions.find((elment) => elment.value === tableId)?.label}</p>
-        {order.length > 0 ?
-          order.map((item, index) => (
-            <OrderItemComponent key={index} orderItem={item} onRemove={(val) => handleRemoveMenuItem(val)} />
-          ))
-          : ''}
+        <div style={{maxHeight: '40vh', overflowY: 'auto',paddingRight: '8px',}}>
+          {order.length > 0 ?
+            order.map((item, index) => (
+              <OrderItemComponent key={index} orderItem={item} onRemove={(val) => handleRemoveMenuItem(val)} />
+            ))
+            : ''}
+        </div>
         <div className='mt-auto'>
           <Divider />
           <div className='flex justify-between items-center gap-3'>
