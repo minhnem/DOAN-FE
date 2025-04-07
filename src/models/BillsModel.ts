@@ -1,7 +1,7 @@
-export interface BillKetchen {
+export interface Bill {
     tableId: string
     tableName: string 
-    reservationId: string
+    discount?: number
     dishItem: DishItem[]
 }
 

@@ -2,14 +2,14 @@ import { Modal, Typography } from 'antd'
 import Table, { ColumnProps } from 'antd/es/table'
 import React, { useRef } from 'react'
 import { formatDate } from '../utils/formatDate'
-import { BillKetchen, DishItem } from '../models/BillsModel'
+import { Bill, DishItem } from '../models/BillsModel'
 import { useReactToPrint } from 'react-to-print'
 
 
 interface Props {
     visible: boolean
     onClose: () => void,
-    bill?: BillKetchen,
+    bill?: Bill,
 }
 
 const BillModal = (props: Props) => {
@@ -87,7 +87,7 @@ const BillModal = (props: Props) => {
                 <div className='mb-4'>
                     <p>Mã bàn: {bill?.tableId}</p>
                     <p>Tên bàn: {bill?.tableName}</p>
-                    <p>Thời gian:  {formatDate(new Date())}</p>
+                    <p>Thời gian in:  {formatDate(new Date())}</p>
                 </div>
                 <Table columns={columns} dataSource={bill?.dishItem} bordered key={'title'} pagination={false} />
             </div>
