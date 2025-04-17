@@ -1,4 +1,4 @@
-import { Button, Card, Dropdown, MenuProps, message, Modal, Typography } from 'antd'
+import { Button, Card, DatePicker, Dropdown, MenuProps, message, Modal, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import iconTable from '../assets/image/icons8-table-100.png'
 import { HiDotsHorizontal } from "react-icons/hi";
@@ -10,8 +10,9 @@ import handleAPI from '../api/handleAPI';
 import { TableModel } from '../models/TableModel';
 import ModalTableDetail from '../modals/ModalTableDetail';
 import { useNavigate } from 'react-router-dom';
+import { DateTime } from '../utils/dateTime';
 
-const {confirm} = Modal
+const { confirm } = Modal
 
 const TableManagement = () => {
 
@@ -21,17 +22,20 @@ const TableManagement = () => {
     const [tables, setTables] = useState<TableModel[]>([]);
     const [isVisibleModelTable, setIsVisibleModelTable] = useState(false);
     const [isVisibleModelTableDetail, setIsVisibleModelTableDetail] = useState(false);
+    const [date, setDate] = useState<string>();
+    const [time, setTime] = useState('');
 
     const navigate = useNavigate()
 
     useEffect(() => {
+        console.log(date)
         getAllTable()
-    }, []);
+    }, [date]);
 
     const getAllTable = async () => {
         try {
             setIsLoading(true)
-            const api = '/table'
+            const api = date ? `/table?date=${date}` : '/table'
             const res: any = await handleAPI(api)
             res.data && setTables(res.data)
         } catch (error: any) {
@@ -62,7 +66,16 @@ const TableManagement = () => {
             <Card>
                 <div className='flex justify-between items-center mb-4'>
                     <Typography.Title level={3}>Quản lý bàn ăn</Typography.Title>
-                    <div>
+                    <div className='flex gap-2 items-center'>
+                        <p>{'🟢 Trống'}</p>
+                        <p>{'🔴 Được đặt trước'}</p>
+                    </div>
+                    <div className='flex gap-4 items-center'>
+                        <DatePicker
+                            className='w-full'
+                            format={'DD/MM/YYYY'}
+                            placeholder='Chọn ngày'
+                            onChange={(val: any) => val ? setDate(`${DateTime.CalendarDate(val)}`) : setDate(undefined)} />
                         <Button type='primary' onClick={() => setIsVisibleModelTable(true)}>Thêm mới</Button>
                     </div>
                 </div>
@@ -82,10 +95,26 @@ const TableManagement = () => {
                                 key: 'detail',
                                 label: 'Chi tiết',
                                 icon: <BiSolidDetail color='gray' size={20} />,
-                                onClick: () => {
-                                    setTableDetailSelected(table)
-                                    setIsVisibleModelTableDetail(true)
-                                }
+                                children: [
+                                    {
+                                        key: 'time1',
+                                        label: '10:00 - 14:00',
+                                        onClick: () => {
+                                            setTableDetailSelected(table)
+                                            setTime('10:00 - 14:00')
+                                            setIsVisibleModelTableDetail(true)
+                                        },
+                                    },
+                                    {
+                                        key: 'time2',
+                                        label: '17:00 - 22:00',
+                                        onClick: () => {
+                                            setTableDetailSelected(table)
+                                            setTime('17:00 - 22:00')
+                                            setIsVisibleModelTableDetail(true)
+                                        },
+                                    }
+                                ]
                             },
                             {
                                 key: 'oder',
@@ -123,8 +152,20 @@ const TableManagement = () => {
                                 <img src={iconTable} alt='icon-table' width={90} />
                             </div>
                             <div className='text-center'>
-                                <p>Trạng thái:</p>
-                                <p>{table.status}</p>
+                                <p>
+                                    {
+                                        table.reservations.length === 0 ? '🟢 10:00 - 14:00' : table.reservations.length === 1 ?
+                                            table.reservations[0].reservation_time === '10:00 - 14:00' ? '🔴 10:00 - 14:00' : '🟢 10:00 - 14:00' :
+                                            table.reservations.length === 2 && '🔴 10:00 - 14:00'
+                                    }
+                                </p>
+                                <p className='my-1'>
+                                    {
+                                        table.reservations.length === 0 ? '🟢 17:00 - 22:00' : table.reservations.length === 1 ?
+                                            table.reservations[0].reservation_time === '17:00 - 22:00' ? '🔴 17:00 - 22:00' : '🟢 17:00 - 22:00' :
+                                            table.reservations.length === 2 && '🔴 17:00 - 22:00'
+                                    }
+                                </p>
                             </div>
                         </div>
                     })}
@@ -138,12 +179,14 @@ const TableManagement = () => {
                     setIsVisibleModelTable(false)
                     setTableSelected(undefined)
                 }}
-                onAddNew={(_val) => getAllTable()} 
+                onAddNew={(_val) => getAllTable()}
             />
 
             <ModalTableDetail
                 table={tableDetailSelected}
                 visible={isVisibleModelTableDetail}
+                time={time}
+                date={date}
                 onClose={() => {
                     setIsVisibleModelTableDetail(false)
                     setTableSelected(undefined)

@@ -44,7 +44,7 @@ const MenuManagement = () => {
     {
       key: 'title',
       dataIndex: 'title',
-      title: 'Tên sản phẩm',
+      title: 'Tên',
       width: 300,
     },
     {

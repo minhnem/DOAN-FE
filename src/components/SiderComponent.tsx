@@ -64,9 +64,6 @@ const SiderComponent = () => {
         } else if (pathname === '/inventory/category-materials') {
             setSelectedKeys(['category menterials']);
             setOpenKeys(['inventory']);
-        } else if (pathname === '/order-management') {
-            setSelectedKeys(['order management']);
-            setOpenKeys(['oder']);
         } else if (pathname === '/order') {
             setSelectedKeys(['table order']);
             setOpenKeys(['oder']);
@@ -149,18 +146,8 @@ const SiderComponent = () => {
         },
         {
             key: 'oder', 
-            label: <Link to={'/order-management'}>Quản lý Order</Link>,
+            label:  <Link to={'/order'}>Order</Link>,
             icon: <IoFastFoodOutline size={18}/>,
-            children: [
-                {
-                    key: 'order management',
-                    label: <Link to={'/order-management'}>Danh sách order</Link>
-                },
-                {
-                    key: 'table order',
-                    label: <Link to={'/order'}>Order</Link>
-                },
-            ]
         },
         {
             key: 'table',

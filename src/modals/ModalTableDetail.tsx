@@ -1,21 +1,24 @@
-import { Button, Form, Input, message, Modal, Typography } from 'antd'
+import { Button, DatePicker, Form, Input, message, Modal, Select, Typography } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import React, { useEffect, useState } from 'react'
-import { TableModel } from '../models/TableModel'
+import { TableModel, TableModelDetail } from '../models/TableModel'
 import handleAPI from '../api/handleAPI'
+import dayjs from 'dayjs'
 
 interface Props {
     table?: TableModel,
+    date?: string,
+    time: string,
     visible: boolean,
     onAddNew: (val: any) => void,
     onClose: () => void
 }
 
 const ModalTableDetail = (props: Props) => {
-    const { visible, onClose, table } = props
+    const { visible, onClose, table, date, time } = props
 
     const [isLoading, setIsLoading] = useState(false);
-    const [tableDetail, setTableDetail] = useState<TableModel>();
+    const [tableDetail, setTableDetail] = useState<TableModelDetail>();
 
     const [form] = useForm()
 
@@ -34,10 +37,10 @@ const ModalTableDetail = (props: Props) => {
     const getTableReservations = async (id: string) => {
         try {
             setIsLoading(true)
-            const api = `/table/get-table-reservations?id=${id}`
+            const api = `/table/get-table-reservations?id=${id}&date=${date ? date : ''}&time=${time ? time : ''}`
             const res = await handleAPI(api)
             if (res.data.reservations && Object.keys(res.data.reservations).length > 0) {
-                form.setFieldsValue(res.data.reservations)
+                form.setFieldsValue({ ...res.data.reservations, reservation_date: dayjs(res.data.reservations.reservation_date) })
                 setTableDetail(res.data)
             }
         } catch (error: any) {
@@ -54,9 +57,12 @@ const ModalTableDetail = (props: Props) => {
             data[i] = values[i] ?? ''
         }
         data.table_id = table?._id
+        data.reservation_time = time
         try {
             setIsLoading(true)
-            const api = tableDetail && Object.keys(tableDetail).length > 0 ? `/reservations/update-reservations?id=${tableDetail.reservations._id}` : '/reservations/add-new-reservations'
+            const api = tableDetail && Object.keys(tableDetail).length > 0 ?
+                `/reservations/update-reservations?id=${tableDetail.reservations._id}` :
+                '/reservations/add-new-reservations'
             const res: any = await handleAPI(api, data, tableDetail && Object.keys(tableDetail).length > 0 ? 'put' : 'post')
             res.data && console.log(res)
             message.success(res.message)
@@ -104,8 +110,9 @@ const ModalTableDetail = (props: Props) => {
                 <Typography.Text>Tên bàn: {table?.name}</Typography.Text>
                 <Typography.Text>Mã bàn: {table?._id}</Typography.Text>
             </div>
-            <div className='mb-5'>
+            <div className='flex justify-between mb-5'>
                 <Typography.Text>Trạng thái: {table?.status}</Typography.Text>
+                <Typography.Text>Thời gian: {time}</Typography.Text>
             </div>
             <Form
                 form={form}
@@ -113,6 +120,9 @@ const ModalTableDetail = (props: Props) => {
                 layout='vertical'
                 onFinish={handleAddTableDetail}
             >
+                <Form.Item label='Chọn ngày' name='reservation_date' rules={[{ message: 'Vui lòng nhập ngày kết thúc !!', required: true }]}>
+                    <DatePicker className='w-full' format={'DD/MM/YYYY'} placeholder='Chọn ngày' />
+                </Form.Item>
                 <div className='text-center'>
                     <Typography.Title level={5}>---------- Thông tin khách hàng ---------</Typography.Title>
                 </div>
