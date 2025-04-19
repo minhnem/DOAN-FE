@@ -58,6 +58,7 @@ const ModalTableDetail = (props: Props) => {
         }
         data.table_id = table?._id
         data.reservation_time = time
+        data.status = 'Đã xác nhận'
         try {
             setIsLoading(true)
             const api = tableDetail && Object.keys(tableDetail).length > 0 ?

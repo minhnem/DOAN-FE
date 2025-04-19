@@ -15,6 +15,7 @@ import AddMenterials from '../screens/InventoryManagement/AddMaterials'
 import CategoryMenterials from '../screens/InventoryManagement/CategoryMaterials'
 import TableManagement from '../screens/TableManagement'
 import Order from '../screens/OrderManagement/Order'
+import ReservationManagement from '../screens/Reservation'
 
 const {Content, Footer} = Layout
 
@@ -49,6 +50,7 @@ const MainRouter = () => {
                 <Route path='/order' element={<Order/>}/>
               </Route>
               <Route path='/table-management' element={<TableManagement/>}/>
+              <Route path='/reservation-management' element={<ReservationManagement/>}/>
             </Routes>
           </Content>
           <Footer />

@@ -46,9 +46,6 @@ const SiderComponent = () => {
         } else if (pathname === '/reports') {
             setSelectedKeys(['reports']);
             setOpenKeys([]);
-        } else if (pathname === '/oders') {
-            setSelectedKeys(['oders']);
-            setOpenKeys([]);
         } else if (pathname === '/manage-store') {
             setSelectedKeys(['manage Store']);
             setOpenKeys([]);
@@ -69,6 +66,9 @@ const SiderComponent = () => {
             setOpenKeys(['oder']);
         } else if (pathname === '/table-management') {
             setSelectedKeys(['table']);
+            setOpenKeys([]);
+        } else if (pathname === '/reservation-management') {
+            setSelectedKeys(['reservation']);
             setOpenKeys([]);
         }
     }, [location]);
@@ -111,11 +111,6 @@ const SiderComponent = () => {
             icon: <BsBarChart size={18} />
         },
         {
-            key: 'oders',
-            label: <Link to={'/oders'}>Đơn hàng</Link>,
-            icon: <BsBoxSeam size={18} />
-        },
-        {
             key: 'manage Store',
             label: <Link to={'/manage-store'}>Quản lý cửa hàng</Link>,
             icon: <MdOutlineEventNote size={18} />
@@ -153,6 +148,11 @@ const SiderComponent = () => {
             key: 'table',
             label: <Link to={'/table-management'}>Quản lý bàn ăn</Link>,
             icon: <MdOutlineTableBar size={18}/>
+        },
+        {
+            key: 'reservation',
+            label: <Link to={'/reservation-management'}>Quản lý đặt bàn</Link>,
+            icon: <BsBoxSeam size={18} />
         }
     ]
 
