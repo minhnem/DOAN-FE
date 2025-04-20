@@ -14,6 +14,7 @@ import { colors } from '../constants/colors';
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { MdOutlineTableBar } from "react-icons/md";
 import { IoFastFoodOutline } from "react-icons/io5";
+import { MdOutlineFeedback } from "react-icons/md";
 
 type MenuItem = Required<MenuProps>['items'][number]
 const { Sider } = Layout
@@ -62,13 +63,16 @@ const SiderComponent = () => {
             setSelectedKeys(['category menterials']);
             setOpenKeys(['inventory']);
         } else if (pathname === '/order') {
-            setSelectedKeys(['table order']);
-            setOpenKeys(['oder']);
+            setSelectedKeys(['order']);
+            setOpenKeys([]);
         } else if (pathname === '/table-management') {
             setSelectedKeys(['table']);
             setOpenKeys([]);
         } else if (pathname === '/reservation-management') {
             setSelectedKeys(['reservation']);
+            setOpenKeys([]);
+        } else if (pathname === '/feedback-management') {
+            setSelectedKeys(['feeback']);
             setOpenKeys([]);
         }
     }, [location]);
@@ -140,7 +144,7 @@ const SiderComponent = () => {
             ]
         },
         {
-            key: 'oder', 
+            key: 'order', 
             label:  <Link to={'/order'}>Order</Link>,
             icon: <IoFastFoodOutline size={18}/>,
         },
@@ -153,6 +157,11 @@ const SiderComponent = () => {
             key: 'reservation',
             label: <Link to={'/reservation-management'}>Quản lý đặt bàn</Link>,
             icon: <BsBoxSeam size={18} />
+        },
+        {
+            key: 'feedback',
+            label: <Link to={'/feedback-management'}>Quản lý phản hồi/đánh giá</Link>,
+            icon: <MdOutlineFeedback size={18} />
         }
     ]
 

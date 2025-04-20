@@ -171,7 +171,10 @@ const ReservationManagement = () => {
       />
       <ModalReservation
         visible={isVisibleModalReservation}
-        onClose={() => setIsVisibleModalReservation(false)}
+        onClose={() => {
+          setIsVisibleModalReservation(false)
+          setReservationSelected(undefined)
+        }}
         onAddNew={() => getReservationsStatus(status)}
         reservation={reservationSelected}
       />
