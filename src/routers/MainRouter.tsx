@@ -17,6 +17,7 @@ import TableManagement from '../screens/TableManagement'
 import Order from '../screens/OrderManagement/Order'
 import ReservationManagement from '../screens/Reservation'
 import FeedbackManagement from '../screens/Feedback'
+import Report from '../screens/Report'
 
 const {Content, Footer} = Layout
 
@@ -53,6 +54,7 @@ const MainRouter = () => {
               <Route path='/table-management' element={<TableManagement/>}/>
               <Route path='/reservation-management' element={<ReservationManagement/>}/>
               <Route path='/feedback-management' element={<FeedbackManagement/>}/>
+              <Route path='/report' element={<Report/>}/>
             </Routes>
           </Content>
           <Footer />

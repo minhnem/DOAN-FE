@@ -13,3 +13,13 @@ export const formatDate = (date: string | Date) => {
 
     return vietnamTime
 }
+
+
+export const formatDateMonth = (date: string | Date) => {
+    const item = new Date(date);
+    return new Intl.DateTimeFormat('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      timeZone: 'Asia/Ho_Chi_Minh',
+    }).format(item);
+};

@@ -104,7 +104,7 @@ const MenuManagement = () => {
       dataIndex: 'expiryDate',
       title: 'Hạn sử dụng',
       width: 150,
-      render: (date: any) => formatDate(date).split(' ')[1]
+      render: (date: any) => date ? formatDate(date).split(' ')[1] : ''
     },
     {
       key: 'action',

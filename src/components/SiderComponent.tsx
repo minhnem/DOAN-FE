@@ -44,8 +44,8 @@ const SiderComponent = () => {
         } else if (pathname === '/supplier') {
             setSelectedKeys(['suppliers']);
             setOpenKeys([]);
-        } else if (pathname === '/reports') {
-            setSelectedKeys(['reports']);
+        } else if (pathname === '/report') {
+            setSelectedKeys(['report']);
             setOpenKeys([]);
         } else if (pathname === '/manage-store') {
             setSelectedKeys(['manage Store']);
@@ -110,8 +110,8 @@ const SiderComponent = () => {
             icon: <FaRegCircleUser size={18} />
         },
         {
-            key: 'reports',
-            label: <Link to={'/reports'}>Báo cáo</Link>,
+            key: 'report',
+            label: <Link to={'/report'}>Báo cáo</Link>,
             icon: <BsBarChart size={18} />
         },
         {

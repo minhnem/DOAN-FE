@@ -6,4 +6,9 @@ export class DateTime {
         
         return `${date.getFullYear()}-${add0toNumber(date.getMonth() + 1)}-${add0toNumber(date.getDate())}`
     }
+
+    static getSortDate = (val: any) => {
+        const date = new Date(val)
+        return `${date.getFullYear()}-${add0toNumber(date.getMonth() + 1)}`
+    }
 }
