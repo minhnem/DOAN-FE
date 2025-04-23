@@ -6,7 +6,7 @@ export interface ReservationsModel {
     phone: number,
     reservation_time: string,
     reservation_date: string,
-    status: String,
+    status: string,
     createdAt: string
     updatedAt: string
     __v: number

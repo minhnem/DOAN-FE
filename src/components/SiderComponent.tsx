@@ -15,6 +15,7 @@ import { RiDiscountPercentLine } from "react-icons/ri";
 import { MdOutlineTableBar } from "react-icons/md";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { MdOutlineFeedback } from "react-icons/md";
+import { AiOutlineTeam } from "react-icons/ai";
 
 type MenuItem = Required<MenuProps>['items'][number]
 const { Sider } = Layout
@@ -74,7 +75,11 @@ const SiderComponent = () => {
         } else if (pathname === '/feedback-management') {
             setSelectedKeys(['feeback']);
             setOpenKeys([]);
+        } else if (pathname === '/personnel-management') {
+            setSelectedKeys(['personnel management']);
+            setOpenKeys(['personnel']);
         }
+        
     }, [location]);
     
 
@@ -162,7 +167,18 @@ const SiderComponent = () => {
             key: 'feedback',
             label: <Link to={'/feedback-management'}>Quản lý phản hồi/đánh giá</Link>,
             icon: <MdOutlineFeedback size={18} />
-        }
+        },
+        {
+            key: 'personnel',
+            label: 'Quản lý nhân viên',
+            icon: <AiOutlineTeam size={18} />,
+            children: [
+                {
+                    key: 'personnel management',
+                    label: <Link to={'/personnel-management'}>Thông tin nhân viên</Link>
+                },
+            ]
+        },
     ]
 
     const onOpenChange = (keys: string[]) => {
