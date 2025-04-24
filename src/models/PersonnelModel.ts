@@ -7,5 +7,6 @@ export interface PersonnelModel {
     role: string,
     createdAt: string
     updatedAt: string
-    __v: number
+    __v: number,
+    totalAttendance: number
 }

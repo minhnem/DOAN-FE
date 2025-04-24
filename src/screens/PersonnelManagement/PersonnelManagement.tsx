@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, message, Modal, Select, Space, Table } from 'antd'
+import { Button, Card, Form, Input, message, Modal, Select, Space, Table, Typography } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import React, { useEffect, useState } from 'react'
 import { PersonnelModel } from '../../models/PersonnelModel'
@@ -6,7 +6,7 @@ import { ColumnProps } from 'antd/es/table'
 import handleAPI from '../../api/handleAPI'
 import { replaceName } from '../../utils/repalceName'
 
-const {confirm} = Modal
+const { confirm } = Modal
 
 const PersonnelManagement = () => {
 
@@ -20,7 +20,7 @@ const PersonnelManagement = () => {
         {
             key: 'name',
             dataIndex: 'name',
-            title: 'Tên khách hàng',
+            title: 'Tên nhân viên',
             width: 200
         },
         {
@@ -47,7 +47,7 @@ const PersonnelManagement = () => {
             title: 'Tùy chọn',
             fixed: 'right',
             align: 'center',
-            width: 200,
+            width: 140,
             render: (personnel: PersonnelModel) => <>
                 <Space>
                     <Button
@@ -58,15 +58,15 @@ const PersonnelManagement = () => {
                     >
                         chọn
                     </Button>
-                    <Button onClick={() => { 
+                    <Button onClick={() => {
                         confirm({
                             title: 'Xác nhận',
                             content: 'Bạn có chắc nhân viên này không ?',
                             onOk: () => {
-                                handleRemovePersonnel(personnel._id) 
+                                handleRemovePersonnel(personnel._id)
                                 setPersonnelSelected(undefined)
                             }
-                          })
+                        })
                     }}>Xóa</Button>
                 </Space>
             </>
@@ -78,7 +78,7 @@ const PersonnelManagement = () => {
     }, []);
 
     useEffect(() => {
-        if(personnelSelected) {
+        if (personnelSelected) {
             form.setFieldsValue(personnelSelected)
         }
     }, [personnelSelected]);
@@ -115,8 +115,8 @@ const PersonnelManagement = () => {
         setIsLoading(true)
         try {
             const api = personnelSelected ? `/personnel/update-personnel?id=${personnelSelected._id}` : '/personnel/add-new'
-            await handleAPI(api, {...values, slug: replaceName(values.name)}, personnelSelected ? 'put' : 'post')
-            message.success( personnelSelected ? 'Sửa thông tin nhân viên thành công' : 'Thêm nhân viên mới thành công')
+            await handleAPI(api, { ...values, slug: replaceName(values.name) }, personnelSelected ? 'put' : 'post')
+            message.success(personnelSelected ? 'Sửa thông tin nhân viên thành công' : 'Thêm nhân viên mới thành công')
             getAllPersonnel()
             form.resetFields()
         } catch (error) {
@@ -145,6 +145,7 @@ const PersonnelManagement = () => {
     return (
         <div>
             <Card className='mb-5'>
+                <Typography.Title level={2}>Quản lý nhân viên</Typography.Title>
                 <Form form={form} size='large' layout='vertical' onFinish={handleAddPersonnel}>
                     <div className='grid grid-cols-12 gap-5'>
                         <div className='col-span-5'>

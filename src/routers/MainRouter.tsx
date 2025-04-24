@@ -19,6 +19,7 @@ import ReservationManagement from '../screens/Reservation'
 import FeedbackManagement from '../screens/Feedback'
 import Report from '../screens/Report'
 import PersonnelManagement from '../screens/PersonnelManagement/PersonnelManagement'
+import Attendances from '../screens/PersonnelManagement/Attendances'
 
 const {Content, Footer} = Layout
 
@@ -58,6 +59,7 @@ const MainRouter = () => {
               <Route path='/report' element={<Report/>}/>
               <Route>
                 <Route path='/personnel-management' element={<PersonnelManagement/>}/>
+                <Route path='/personnel-attendance' element={<Attendances/>}/>
               </Route>
             </Routes>
           </Content>

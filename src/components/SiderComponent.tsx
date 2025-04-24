@@ -6,7 +6,6 @@ import { TiHomeOutline } from "react-icons/ti";
 import { MdOutlineInventory2, MdOutlineRestaurantMenu } from "react-icons/md";
 import { BsBarChart } from "react-icons/bs";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { MdOutlineEventNote } from "react-icons/md";
 import { BsBarChartSteps } from "react-icons/bs";
 import { BsBoxSeam } from "react-icons/bs";
 import { appInfo } from '../constants/appInfos';
@@ -48,9 +47,6 @@ const SiderComponent = () => {
         } else if (pathname === '/report') {
             setSelectedKeys(['report']);
             setOpenKeys([]);
-        } else if (pathname === '/manage-store') {
-            setSelectedKeys(['manage Store']);
-            setOpenKeys([]);
         } else if (pathname === '/promotion') {
             setSelectedKeys(['promotion']);
             setOpenKeys([]);
@@ -73,10 +69,13 @@ const SiderComponent = () => {
             setSelectedKeys(['reservation']);
             setOpenKeys([]);
         } else if (pathname === '/feedback-management') {
-            setSelectedKeys(['feeback']);
+            setSelectedKeys(['feedback']);
             setOpenKeys([]);
         } else if (pathname === '/personnel-management') {
             setSelectedKeys(['personnel management']);
+            setOpenKeys(['personnel']);
+        } else if (pathname === '/personnel-attendance') {
+            setSelectedKeys(['personnel attendance']);
             setOpenKeys(['personnel']);
         }
         
@@ -120,13 +119,8 @@ const SiderComponent = () => {
             icon: <BsBarChart size={18} />
         },
         {
-            key: 'manage Store',
-            label: <Link to={'/manage-store'}>Quản lý cửa hàng</Link>,
-            icon: <MdOutlineEventNote size={18} />
-        },
-        {
             key: 'promotion',
-            label: <Link to={'/promotion'}>Quản lý giảm giá/khuyến mại</Link>,
+            label: <Link to={'/promotion'}>Quản lý giảm giá / khuyến mại</Link>,
             icon: <RiDiscountPercentLine size={18} />
         },
         {
@@ -175,7 +169,11 @@ const SiderComponent = () => {
             children: [
                 {
                     key: 'personnel management',
-                    label: <Link to={'/personnel-management'}>Thông tin nhân viên</Link>
+                    label: <Link to={'/personnel-management'}>Quản lý nhân viên</Link>
+                },
+                {
+                    key: 'personnel attendance',
+                    label: <Link to={'/personnel-attendance'}>Chấm công / Thống kê</Link>
                 },
             ]
         },
