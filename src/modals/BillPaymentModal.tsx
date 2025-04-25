@@ -10,10 +10,11 @@ interface Props {
     visible: boolean
     onClose: () => void,
     bill?: Bill,
+    onAddNew: () => void,
 }
 
 const BillPayment = (props: Props) => {
-    const { visible, onClose, bill } = props
+    const { visible, onClose, bill, onAddNew } = props
 
     const printRef = useRef<HTMLDivElement>(null)
 
@@ -78,6 +79,7 @@ const BillPayment = (props: Props) => {
         try {
             const api = '/bill/add-new-bill'
             await handleAPI(api, data, 'post')
+            onAddNew()
         } catch (error) {
             console.log(error)
         }

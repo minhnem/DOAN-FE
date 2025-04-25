@@ -60,7 +60,7 @@ const Order = () => {
       }
     } catch (error: any) {
       console.log(error)
-    } 
+    }
   }
 
   const getOrder = async (id: string) => {
@@ -193,7 +193,7 @@ const Order = () => {
           </div>
           <div></div>
         </div>
-        <div className='grid grid-cols-3 gap-3' style={{maxHeight: '100vh', overflowY: 'auto',paddingRight: '8px',}}>
+        <div className='grid grid-cols-3 gap-3' style={{ maxHeight: '100vh', overflowY: 'auto', paddingRight: '8px', }}>
           {menuItems.length > 0 && menuItems.map((item, index) => (
             <MenuItemComponent key={index} menuItem={item} onClick={(val) => handleOrder(val)} />
           ))}
@@ -203,7 +203,7 @@ const Order = () => {
         <Typography.Title level={3}>Đơn đặt</Typography.Title>
         <p className='mb-5'>Mã bàn: {tableId}</p>
         <p className='mb-5'>Tên bàn: {tableOptions && tableOptions.find((elment) => elment.value === tableId)?.label}</p>
-        <div style={{maxHeight: '40vh', overflowY: 'auto',paddingRight: '8px',}}>
+        <div style={{ maxHeight: '40vh', overflowY: 'auto', paddingRight: '8px', }}>
           {order.length > 0 ?
             order.map((item, index) => (
               <OrderItemComponent key={index} orderItem={item} onRemove={(val) => handleRemoveMenuItem(val)} />
@@ -254,7 +254,13 @@ const Order = () => {
         </div>
       </Card>
       <BillModal visible={visibleBillModal} onClose={() => setVisibleBillModal(false)} bill={bill} />
-      <BillPayment visible={visibleBillPaymentModal} onClose={() => setVisibleBillPaymentModal(false)} bill={bill} />
+      <BillPayment
+        visible={visibleBillPaymentModal}
+        onClose={() => setVisibleBillPaymentModal(false)}
+        bill={bill}
+        onAddNew={() => {
+          dispatch(syncOrder([]))
+        }} />
     </div>
   )
 }
