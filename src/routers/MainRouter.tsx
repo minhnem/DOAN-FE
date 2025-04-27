@@ -3,7 +3,6 @@ import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import SiderComponent from '../components/SiderComponent'
 import HeaderComponent from '../components/HeaderComponent'
-import HomeScreen from '../screens/HomeScreen'
 import Dashboard from '../screens/Dashboard'
 import Category from '../screens/Category'
 import AddDish from '../screens/MenuManagement/AddDish'
@@ -36,8 +35,7 @@ const MainRouter = () => {
           </Affix>
           <Content className='mx-auto p-6 container'>
             <Routes>
-              <Route path='/' element={<HomeScreen />}/>
-              <Route path='/dashboard' element={<Dashboard />}/>
+              <Route path='/' element={<Dashboard />}/>
               <Route path='/category' element={<Category />}/>
               <Route>
                 <Route path='/menu' element={<MenuManagement />}/>

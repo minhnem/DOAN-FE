@@ -17,7 +17,6 @@ import {
 } from "recharts";
 import { formatDateMonth } from '../utils/formatDate';
 import { getBestSellingDishes } from '../utils/getBestSellingDishes';
-import { DishItem } from '../models/BillsModel';
 
 const Report = () => {
     const [timeType, setTimeType] = useState('Tuần');

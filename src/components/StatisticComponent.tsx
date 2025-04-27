@@ -36,8 +36,8 @@ const StatisticComponent = (props: Props) => {
                 </div>
             ) : (
                 <div className="flex justify-between items-center">
-                    <span className="font-semibold text-[#5d6679]">{valueIsNotMoney ? value : VND.format(value)}</span>
                     <span className="font-semibold text-[#5d6679]">{label}</span>
+                    <span className="font-semibold text-[#5d6679]">{valueIsNotMoney ? value : VND.format(value)}</span>
                 </div>
             )}
         </div>

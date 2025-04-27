@@ -85,7 +85,7 @@ const SiderComponent = () => {
     const items: MenuItem[] = [
         {
             key: 'dashboard',
-            label: <Link to={'/dashboard'}>Trang chủ</Link>,
+            label: <Link to={'/'}>Trang chủ</Link>,
             icon: <TiHomeOutline size={18} />
         },
         {
