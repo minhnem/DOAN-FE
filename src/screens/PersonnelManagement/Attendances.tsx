@@ -80,7 +80,7 @@ const Attendances = () => {
     const getDataTime = async (timeType: string) => {
         try {
             setIsLoading(true)
-            const api = `/attendance/get-time-personnel-attendance?time=${timeType}`
+            const api = `/attendance/get-time-personnel-attendance?timeType=${timeType}`
             const res = await handleAPI(api)
             setPersonnel(res.data)
         } catch (error) {
@@ -126,7 +126,7 @@ const Attendances = () => {
                                 { label: 'Tháng', value: 'Tháng' },
                                 { label: 'Năm', value: 'Năm' },
                             ]}
-                            defaultValue="Ngày"
+                            defaultValue={timeType}
                             optionType="button"
                             buttonStyle="solid"
                             onChange={(val) => setTimeType(val.target.value)}
