@@ -1,4 +1,4 @@
-import { Button, message, Modal, Space, Table, Typography } from 'antd'
+import { Button, message, Modal, Space, Table, Tooltip, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { PromotionModel } from '../models/PromotionModel'
 import handleAPI from '../api/handleAPI'
@@ -6,6 +6,7 @@ import { ColumnProps } from 'antd/es/table'
 import { MdDeleteForever, MdEditSquare } from 'react-icons/md'
 import { formatDate } from '../utils/formatDate'
 import AddPromotion from '../modals/AddPromotion'
+import { AiFillNotification } from "react-icons/ai";
 
 const { confirm } = Modal
 
@@ -71,7 +72,7 @@ const PromotionScreen = () => {
       align: 'center',
       fixed: 'right',
       dataIndex: '',
-      width: 150,
+      width: 200,
       render: (promotion: PromotionModel) => <Space>
         <Button
           type='link'
@@ -94,6 +95,21 @@ const PromotionScreen = () => {
             })
           }}
         />
+        <Tooltip title='Thông báo với mọi người'>
+          <Button
+            type='link'
+            icon={<AiFillNotification size={20} color='green'/>}
+            onClick={() => {
+              confirm({
+                title: 'Xác nhận',
+                content: 'Bạn có chắc muốn gửi thông báo mã giảm giá này đến tất cả mọi người đã đăng ký không ?',
+                onOk: () => {
+                  handleNotification(promotion._id)
+                }
+              })
+            }}
+          />
+        </Tooltip>
       </Space>
     }
   ]
@@ -122,6 +138,19 @@ const PromotionScreen = () => {
       const api = '/promotion'
       const res = await handleAPI(api)
       res.data && setPromotions(res.data)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleNotification = async (id: string) => {
+    try {
+      setIsLoading(true)
+      const api = `/promotion/notifycation?id=${id}`
+      await handleAPI(api)
+      message.success('Bạn đã gửi thông báo thành công đến mọi người')
     } catch (error) {
       console.log(error)
     } finally {

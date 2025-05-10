@@ -122,13 +122,13 @@ const AddMaterials = () => {
             const res: any = await handleAPI(api, data, `${id ? 'put' : 'post'}`)
             console.log(res.data)
             message.success(res.message)
+            form.resetFields()
+            navigate('/inventory')
         } catch (error: any) {
             message.error(error.message)
             console.log(error)
         } finally {
             setIsLoading(false)
-            form.resetFields()
-            navigate('/inventory')
         }
 
     }

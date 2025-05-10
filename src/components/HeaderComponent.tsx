@@ -53,7 +53,11 @@ const HeaderComponent = () => {
         getReservations()
 
         socket.on('new-reservation', (newItem) => {
-           setReservations((prev) => [newItem, ...prev]);
+            if(newItem) {
+                setReservations((prev) => [newItem, ...prev]);
+            } else {
+                getReservations()
+            }
         })
 
         return () => {

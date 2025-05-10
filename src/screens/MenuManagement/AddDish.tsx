@@ -121,13 +121,13 @@ const AddDish = () => {
             const api = `/dish/${id ? `update-dish?id=${id}` : 'add-new-dish'}`
             const res: any = await handleAPI(api, data, `${id ? 'put' : 'post'}`)
             message.success(res.message)
+            form.resetFields()
+            navigate('/menu')
         } catch (error: any) {
             message.error(error.message)
             console.log(error)
         } finally {
             setIsLoading(false)
-            form.resetFields()
-            navigate('/menu')
         }
 
     }
