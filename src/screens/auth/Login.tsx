@@ -54,7 +54,7 @@ const Login = () => {
             <Typography.Title level={3} style={{ margin: '0', padding: '0', lineHeight: '0', color: colors.primary }}>{appInfo.title}</Typography.Title>
           </div>
           <Typography.Title level={2} style={{ textAlign: 'center', marginBottom: '20px', fontWeight: '800' }}>Đăng nhập</Typography.Title>
-          <p className='text-center text-[1.2rem] font-medium mb-4'>Chào mừng bạn, hãy đăng nhập tài khoản để có thông báo về những chương trình ưu đãi của chúng tôi.</p>
+          <p className='text-center text-[1.2rem] font-medium mb-4'>Chào mừng bạn, hãy đăng nhập tài khoản để bắt đầu quản lý nhà hàng của bạn.</p>
           <Form
             form={form}
             layout='vertical'
@@ -68,10 +68,6 @@ const Login = () => {
               <Input.Password className='h-12' placeholder='Nhập mật khẩu' allowClear />
             </Form.Item>
           </Form>
-
-          <div className='text-right'>
-            <Link to={'/'} style={{ fontWeight: '600', color: '#1677FF'}}>Bạn quyên mật khẩu?</Link>
-          </div>
           <Button
             className='w-full mt-8 py-6'
             type='primary'
@@ -82,13 +78,6 @@ const Login = () => {
           >
             Đăng nhập
           </Button>
-
-          <div className='text-center mt-14'>
-            <Space>
-              <Typography.Text style={{ fontWeight: '600' }}>Bạn đã có tài khoản chưa? </Typography.Text>
-              <Link to={'/register'} style={{ fontWeight: '600', color: '#1677FF' }}>Đăng ký</Link>
-            </Space>
-          </div>
         </div>
       </div>
     </div>
