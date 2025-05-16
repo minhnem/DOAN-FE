@@ -1,4 +1,4 @@
-import { Card, List, Radio, Typography } from 'antd'
+import { Button, Card, List, Radio, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import icon1 from '../assets/icons/icons8-sales-50.png';
 import icon2 from '../assets/icons/icons8-revenue-50.png';
@@ -35,6 +35,11 @@ const Report = () => {
         totalBill: 0
     });
     const [bestSelling, setBestSelling] = useState<{ title: string, count: number }[]>([]);
+    const [predictRevenue, setPredictRevenue] = useState<{
+        count: string,
+        data: number
+    }[]>([]);
+    const [predictTopDish, setPredictTopDish] = useState<{ title: string, totalPredicted: number }[]>([]);
 
     useEffect(() => {
         getDataTime(timeType)
@@ -63,6 +68,31 @@ const Report = () => {
         }
     }
 
+    const handlePredictions = async () => {
+        try {
+            const api = '/report/predictions'
+            const res = await handleAPI(api)
+            setPredictRevenue(res.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setIsLoading(false)
+        }
+    }  
+
+    const handlePredicTopDish = async () => {
+        try {
+            const api = '/report/predict-top-sale'
+            const res = await handleAPI(api)
+            console.log(res.data)
+            setPredictTopDish(res.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     return (
         <div>
             <Card className='mb-8'>
@@ -82,6 +112,10 @@ const Report = () => {
                         buttonStyle="solid"
                         onChange={(val) => setTimeType(val.target.value)}
                     />
+                    <Button onClick={() => {
+                        handlePredictions()
+                        handlePredicTopDish()
+                    }}>Dự đoán</Button>
                 </div>
                 <div className="grid grid-cols-4">
                     <StatisticComponent
@@ -141,6 +175,36 @@ const Report = () => {
                                     <div className="flex justify-between w-full">
                                         <h2 className='font-semibold text-[1.2rem]'>{item.title}</h2>
                                         <span>số lượng: {item.count}</span>
+                                    </div>
+                                </List.Item>
+                            )}
+                        />
+                    </Card>
+                </div>
+            </div>
+
+            <div className='grid grid-cols-12 gap-5 mt-5'>
+                <div className='col-span-8'>
+                    <Card title="Biểu đồ dự đoán doanh thu doanh thu">
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={predictRevenue}>
+                                <XAxis dataKey="count" />
+                                <YAxis />
+                                <Tooltip />
+                                <Bar dataKey="data" fill="#8884d8" name="Doanh thu" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </Card>
+                </div>
+                <div className='col-span-4'>
+                    <Card title="Dự đoán sản phẩm bán chạy nhất">
+                        <List
+                            dataSource={predictTopDish}
+                            renderItem={(item) => (
+                                <List.Item>
+                                    <div className="flex justify-between w-full">
+                                        <h2 className='font-semibold text-[1.2rem]'>{item.title}</h2>
+                                        <span>số lượng: {item.totalPredicted}</span>
                                     </div>
                                 </List.Item>
                             )}
