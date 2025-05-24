@@ -6,7 +6,7 @@ const baseURL = 'http://localhost:3001'
 
 const getAccessToken = () => {
     const res = localStorage.getItem(localDataNames.authData)
-    return res ? JSON.parse(res).token : ''
+    return res ? JSON.parse(res).accesstoken : ''
 }
 
 const axiosClient = axios.create({

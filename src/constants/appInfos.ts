@@ -1,5 +1,5 @@
 export const localDataNames = {
-    authData: "authData"
+    authData: "auth"
 }
 
 export const appInfo = {

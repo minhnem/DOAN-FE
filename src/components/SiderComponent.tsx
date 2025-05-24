@@ -15,6 +15,7 @@ import { MdOutlineTableBar } from "react-icons/md";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { MdOutlineFeedback } from "react-icons/md";
 import { AiOutlineTeam } from "react-icons/ai";
+import { getUserRule } from '../utils/getUserRule';
 
 type MenuItem = Required<MenuProps>['items'][number]
 const { Sider } = Layout
@@ -24,6 +25,9 @@ const SiderComponent = () => {
     const location = useLocation();
     const [selectedKeys, setSelectedKeys] = useState(['']);
     const [openKeys, setOpenKeys] = useState(['']);
+
+    const rule = getUserRule()
+    console.log(rule)
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -179,6 +183,19 @@ const SiderComponent = () => {
         },
     ]
 
+    const allowedKeysForRule1 = ['order', 'table', 'feedback', 'reservation'];
+    const filterMenu = (items: MenuItem[]) => {
+        if (rule === 0) return items;
+
+        return items.filter(item =>
+            item &&
+            typeof item.key === 'string' &&
+            allowedKeysForRule1.includes(item.key)
+        );
+    }
+    
+    const allItems = filterMenu(items)
+
     const onOpenChange = (keys: string[]) => {
         setOpenKeys(keys);
     }
@@ -191,7 +208,7 @@ const SiderComponent = () => {
             </div>
             <Menu 
                 mode='inline' 
-                items={items} 
+                items={allItems} 
                 theme='light' 
                 selectedKeys={selectedKeys}
                 openKeys={openKeys}

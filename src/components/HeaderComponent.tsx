@@ -25,6 +25,7 @@ const HeaderComponent = () => {
             label: 'Đăng xuất',
             onClick: () => {
                 dispatch(removeAuth({}))
+                localStorage.removeItem('auth')
                 navigate('/')
             }
         }
