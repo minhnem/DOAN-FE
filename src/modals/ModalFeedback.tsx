@@ -58,7 +58,7 @@ const ModalFeedback = (props: Props) => {
                 layout='vertical'
                 onFinish={handleReply}
             >
-                <Form.Item name='description' label='Nhập câu trả lời:'>
+                <Form.Item name='content' label='Nhập câu trả lời:'>
                     <Input.TextArea className='mb-5' maxLength={1000} showCount rows={5} allowClear />
                 </Form.Item>
             </Form>
