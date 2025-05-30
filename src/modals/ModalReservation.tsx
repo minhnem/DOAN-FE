@@ -89,7 +89,7 @@ const ModalReservation = (props: Props) => {
                         filterOption={(input, option) => replaceName(option?.label ? option.label : '').includes(replaceName(input))}
                     />
                 </Form.Item>
-                <Form.Item label='Chọn ngày' name='reservation_date' rules={[{ message: 'Vui lòng nhập ngày kết thúc !!', required: true }]}>
+                <Form.Item label='Chọn ngày' name='reservation_date' rules={[{ message: 'Vui lòng nhập ngày !!', required: true }]}>
                     <DatePicker className='w-full' format={'DD/MM/YYYY'} placeholder='Chọn ngày' />
                 </Form.Item>
                 <Form.Item name='reservation_time' rules={[{ required: true, message: 'Bạn chưa chọn thời gian!!!' }]}>

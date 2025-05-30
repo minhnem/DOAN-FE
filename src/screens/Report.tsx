@@ -182,36 +182,39 @@ const Report = () => {
                     </Card>
                 </div>
             </div>
-
-            <div className='grid grid-cols-12 gap-5 mt-5'>
-                <div className='col-span-8'>
-                    <Card title="Biểu đồ dự đoán doanh thu doanh thu">
-                        <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={predictRevenue}>
-                                <XAxis dataKey="count" />
-                                <YAxis />
-                                <Tooltip />
-                                <Bar dataKey="data" fill="#8884d8" name="Doanh thu" />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </Card>
-                </div>
-                <div className='col-span-4'>
-                    <Card title="Dự đoán sản phẩm bán chạy nhất">
-                        <List
-                            dataSource={predictTopDish}
-                            renderItem={(item) => (
-                                <List.Item>
-                                    <div className="flex justify-between w-full">
-                                        <h2 className='font-semibold text-[1.2rem]'>{item.title}</h2>
-                                        <span>số lượng: {item.totalPredicted}</span>
-                                    </div>
-                                </List.Item>
-                            )}
-                        />
-                    </Card>
-                </div>
-            </div>
+            {
+                predictRevenue.length > 0 ? (
+                    <div className='grid grid-cols-12 gap-5 mt-5'>
+                        <div className='col-span-8'>
+                            <Card title="Biểu đồ dự đoán doanh thu doanh thu">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart data={predictRevenue}>
+                                        <XAxis dataKey="count" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Bar dataKey="data" fill="#8884d8" name="Doanh thu" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </Card>
+                        </div>
+                        <div className='col-span-4'>
+                            <Card title="Dự đoán sản phẩm bán chạy nhất">
+                                <List
+                                    dataSource={predictTopDish}
+                                    renderItem={(item) => (
+                                        <List.Item>
+                                            <div className="flex justify-between w-full">
+                                                <h2 className='font-semibold text-[1.2rem]'>{item.title}</h2>
+                                                <span>số lượng: {item.totalPredicted}</span>
+                                            </div>
+                                        </List.Item>
+                                    )}
+                                />
+                            </Card>
+                        </div>
+                    </div>
+                ) : ''
+            }
         </div>
     )
 }
